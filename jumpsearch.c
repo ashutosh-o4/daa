@@ -1,50 +1,44 @@
-#include <stdio.h>
-#include <math.h>
-#define max 100
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
 
-int jumpsearch(int [], int ,int,int);
 
-int min(int a, int b) {
-    return (a < b) ? a : b;
+void jumpsearch(int a[],int n,int t)
+{
+    int js = sqrt(n);   
+    int prev = 0;
+
+     
+    while (prev < n && a[prev] < t) {
+        prev += js;
+    }
+
+     
+    int start = prev - js;   
+    if (start < 0) start = 0;   
+
+    for (int i = start; i < n && i <= prev; i++) {
+        if (a[i] == t) {
+            printf("Found\n");
+            return;
+        }
+    }
+
+    printf("Not found\n");
 }
 
-int main()  
-{
-    int a[max];
-    int n,q,js,key;
-    printf("Enter TEST CASE:");
-    scanf("%d",&q);
+int main(){
 
-    while(q--){
-        printf("Enter the size of array:");
+    int t;
+    scanf("%d",&t);
+    while(t--){
+        int n,key;
         scanf("%d",&n);
-        js=(int)sqrt(n);
+        int a[n];
         for(int i=0;i<n;i++){
             scanf("%d",&a[i]);
         }
-        printf("Enter key to be searched:");
         scanf("%d",&key);
-        int r=jumpsearch(a,n,js,key);
-        if(r!=-1)
-        printf("Found");
-        else
-        printf("No");
+        jumpsearch(a,n,key);
     }
-}
-
-int jumpsearch(int a[], int n, int j,int key)
-{
-    int prev=0;
-    while( a[min(j,n)-1]<key)
-    {
-        prev=j;
-        j+=sqrt(n);
-        if(prev>=n)
-        return -1;
-    }
-    for(int i=0 ;i<min(j,n);i++){
-        if(a[i]==key)
-        return i;
-    }
-    return -1;
 }
